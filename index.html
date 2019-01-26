@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的导航网站</title>
+    <link rel="stylesheet" href="a.css">
+</head>
+<body>
+    <header></header>
+    <main>
+        <div class="wrapper" id="divFirst">
+        </div>
+    </main>
+    <footer></footer>
+    <script>
+        //1.初始化数据
+        var hashA = init()
+        var keys = hashA['keys']
+        var hash = hashA['hash']
+   
+        //2.生成键盘
+        //遍历keys,生成 kbd 标签
+        generateKeyboard(keys,hash)
+        
+        //3.监听用户动作
+        listenToUser(hash)
+
+        
+        // 下面是工具函数
+        function getFromLocalStorage(name){
+            return JSON.parse(localStorage,getItem(name) || 'null')
+        }
+        function init(){
+            var keys = {    //声明一个二维数组，用于后面生成<div>,<kbd>以及<button>
+                '0':{0:'q',1:'w',2:'e',3:'r',4:'t',5:'y',6:'u',7:'i',8:'o',9:'p',length:10},
+                '1':{0:'a',1:'s',2:'d',3:'f',4:'g',5:'h',6:'j',7:'k',8:'l',length:9},
+                '2':{0:'z',1:'x',2:'c',3:'v',4:'b',5:'n',6:'m',length:7},
+                'length':3
+            }
+            var hash = {    //声明一个hash，用来存按键对应的网址
+                'q':'qq.com',
+                'w':'weibo.com',
+                'e':'ele.me',
+                'r':'renren.com',
+                't':'taobao.com',
+                'y':'youtube.com',
+                'u':'uc.com',
+                'i':'iqiyi.com',
+                'o':'opera.com',
+                'p':'pixiv.net',
+                'a':'acfun.cn',
+                's':'sohu.com',
+            }
+                //取出 localStorage 中的hashEnd对应的hash
+            var hashInLocalStorage = JSON.parse(localStorage.getItem('hashEnd') || 'null')
+            if(hashInLocalStorage){ //如果浏览器中的hashEnd存在
+                hash = hashInLocalStorage   //就拿hashEnd覆盖网页的原hash
+            }
+            return{
+                "keys": keys,
+                "hash": hash
+            }
+        }
+        function generateKeyboard(keys,hash){
+            for(var index=0;index<keys['length'];index=index+1){
+            var div1 = tag('div') //用函数来优化(缩小)代码量,同时再给div加一个class属性
+            div1.className = "row"
+            divFirst.appendChild(div1)
+            
+            var row = keys[index] //第一个数组 第二个数组 第三个数组
+                for(var index2=0;index2<row['length'];index2=index2+1){
+                    var span1 = createSpan(row[index2])
+
+                    var button1 = createButton(row[index2])
+
+                    var img1 = createImage(hash[row[index2]])
+
+                    var kbd1 = tag('kbd')
+                    kbd1.appendChild(span1)
+                    kbd1.className = 'key'
+                    kbd1.appendChild(img1)
+                    kbd1.appendChild(button1)
+                    
+                    div1.appendChild(kbd1)
+                }
+            }
+        }
+        function tag(tagName){  //名字随意
+            return document.createElement(tagName)
+        }//把一个很长的代码用比较简短的函数替换一下
+        function createSpan(textContent){
+            var span1 = tag('span')
+            span1.textContent = textContent
+            span1.className = "text"
+            return span1
+        }
+        function createButton(id){
+            var button1 = tag('button')
+                button1.textContent = '编辑'
+                button1.id = id    //给每个按钮标记以其对应的字母id
+                button1.onclick = function(fjogjosjogo){    //当用户点击时，去fjog..中取要的值
+                    // fjogjosjogo['target]就是用户点击的元素
+                    var button2 = fjogjosjogo['target']
+                    var img2 = button2.previousSibling
+                    var key = button2['id']    //取fjog..中的target值的id，存到key容器中
+                    var urlId = prompt('请输入网址')  //浏览器弹出一个输入框,把用户输入的值存到urlId这个容器中
+                    hash[key] = urlId   //hash变更
+                    img2.src = 'http://' + urlId + '/favicon.ico'
+                    img2.onerror = function(xxx){
+                    xxx.target.src = '//i.loli.net/2017/11/10/5a05afbc5e183.png'
+                    }
+                    localStorage.setItem('hashEnd',JSON.stringify(hash))    //localStorage里有很多桶，hashEnd就是桶的名字。将变更后的hash存到hashEnd这个容器里
+                }
+            return button1
+        }
+        function createImage(domain){
+            var img1 = tag('img')
+                if(domain){
+                    img1.src = 'http://' + domain + '/favicon.ico'
+                }else{
+                    img1.src = '//i.loli.net/2017/11/10/5a05afbc5e183.png'
+                }
+                img1.onerror = function(xxx){
+                    xxx.target.src = '//i.loli.net/2017/11/10/5a05afbc5e183.png'
+                }
+            return img1
+        }
+        function listenToUser(hash){
+            document.onkeypress = function(fjogjosjogo){
+            var key = fjogjosjogo['key']    // q s d j...拿到用户按的键
+            var website = hash[key]     //得到hash数组中对应按键的地址
+            //location.href = 'http://' + website 使用http协议在当前页面访问该地址
+            window.open('http://' + website, '_blank')
+            }
+        }
+    </script>
+</body>
+</html>
