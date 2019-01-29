@@ -4,11 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>我的导航网站</title>
+    <title>JiuJizi-导航网页</title>
     <link rel="stylesheet" href="a.css">
 </head>
 <body>
-    <header></header>
+    <header>
+        <div class="text">
+            <div class="howToUse">使用帮助</div>
+            <ul class="howToUseDetails">
+                <li>本导航网页直接通过按键盘相对键位访问网站</li>
+                <li>所有网页的图标会显示在键位右下角(有些网站获取不了，请见谅)</li>
+                <li>点击编辑可以改变该键位的访问网址</li>
+                <li>就是这样喵 ～0w0~ </li>
+            </ul>
+        </div>
+    </header>
     <main>
         <div class="wrapper" id="divFirst">
         </div>
@@ -16,16 +26,16 @@
     <footer></footer>
     <script>
         //1.初始化数据
-        var hashA = init()
-        var keys = hashA['keys']
-        var hash = hashA['hash']
+        var keyBoardUrlA = init()
+        var keys = keyBoardUrlA['keys']
+        var keyBoardUrl = keyBoardUrlA['keyBoardUrl']
    
         //2.生成键盘
         //遍历keys,生成 kbd 标签
-        generateKeyboard(keys,hash)
+        generateKeyboard(keys,keyBoardUrl)
         
         //3.监听用户动作
-        listenToUser(hash)
+        listenToUser(keyBoardUrl)
 
         
         // 下面是工具函数
@@ -39,31 +49,28 @@
                 '2':{0:'z',1:'x',2:'c',3:'v',4:'b',5:'n',6:'m',length:7},
                 'length':3
             }
-            var hash = {    //声明一个hash，用来存按键对应的网址
-                'q':'qq.com',
+            var keyBoardUrl = {    //声明一个keyBoardUrl，用来存按键对应的网址
                 'w':'weibo.com',
                 'e':'ele.me',
-                'r':'renren.com',
                 't':'taobao.com',
                 'y':'youtube.com',
-                'u':'uc.com',
-                'i':'iqiyi.com',
                 'o':'opera.com',
                 'p':'pixiv.net',
                 'a':'acfun.cn',
-                's':'sohu.com',
+                's':'sogo.com',
+                'b':'bilibili.com',
             }
-                //取出 localStorage 中的hashEnd对应的hash
-            var hashInLocalStorage = JSON.parse(localStorage.getItem('hashEnd') || 'null')
-            if(hashInLocalStorage){ //如果浏览器中的hashEnd存在
-                hash = hashInLocalStorage   //就拿hashEnd覆盖网页的原hash
+                //取出 localStorage 中的keyBoardUrlEnd对应的keyBoardUrl
+            var keyBoardUrlInLocalStorage = JSON.parse(localStorage.getItem('keyBoardUrlEnd') || 'null')
+            if(keyBoardUrlInLocalStorage){ //如果浏览器中的keyBoardUrlEnd存在
+                keyBoardUrl = keyBoardUrlInLocalStorage   //就拿keyBoardUrlEnd覆盖网页的原keyBoardUrl
             }
             return{
                 "keys": keys,
-                "hash": hash
+                "keyBoardUrl": keyBoardUrl
             }
         }
-        function generateKeyboard(keys,hash){
+        function generateKeyboard(keys,keyBoardUrl){
             for(var index=0;index<keys['length'];index=index+1){
             var div1 = tag('div') //用函数来优化(缩小)代码量,同时再给div加一个class属性
             div1.className = "row"
@@ -75,7 +82,7 @@
 
                     var button1 = createButton(row[index2])
 
-                    var img1 = createImage(hash[row[index2]])
+                    var img1 = createImage(keyBoardUrl[row[index2]])
 
                     var kbd1 = tag('kbd')
                     kbd1.appendChild(span1)
@@ -98,20 +105,20 @@
         }
         function createButton(id){
             var button1 = tag('button')
-                button1.textContent = '编辑'
+                button1.textContent = '更改'
                 button1.id = id    //给每个按钮标记以其对应的字母id
                 button1.onclick = function(fjogjosjogo){    //当用户点击时，去fjog..中取要的值
                     // fjogjosjogo['target]就是用户点击的元素
                     var button2 = fjogjosjogo['target']
                     var img2 = button2.previousSibling
                     var key = button2['id']    //取fjog..中的target值的id，存到key容器中
-                    var urlId = prompt('请输入网址')  //浏览器弹出一个输入框,把用户输入的值存到urlId这个容器中
-                    hash[key] = urlId   //hash变更
+                    var urlId = prompt('输入更改后的网址')  //浏览器弹出一个输入框,把用户输入的值存到urlId这个容器中
+                    keyBoardUrl[key] = urlId   //keyBoardUrl变更
                     img2.src = 'http://' + urlId + '/favicon.ico'
                     img2.onerror = function(xxx){
                     xxx.target.src = '//i.loli.net/2017/11/10/5a05afbc5e183.png'
                     }
-                    localStorage.setItem('hashEnd',JSON.stringify(hash))    //localStorage里有很多桶，hashEnd就是桶的名字。将变更后的hash存到hashEnd这个容器里
+                    localStorage.setItem('keyBoardUrlEnd',JSON.stringify(keyBoardUrl))    //localStorage里有很多桶，keyBoardUrlEnd就是桶的名字。将变更后的keyBoardUrl存到keyBoardUrlEnd这个容器里
                 }
             return button1
         }
@@ -127,10 +134,10 @@
                 }
             return img1
         }
-        function listenToUser(hash){
+        function listenToUser(keyBoardUrl){
             document.onkeypress = function(fjogjosjogo){
             var key = fjogjosjogo['key']    // q s d j...拿到用户按的键
-            var website = hash[key]     //得到hash数组中对应按键的地址
+            var website = keyBoardUrl[key]     //得到keyBoardUrl数组中对应按键的地址
             //location.href = 'http://' + website 使用http协议在当前页面访问该地址
             window.open('http://' + website, '_blank')
             }

@@ -1,62 +1,23 @@
 *{margin:0;padding:0;}
 a{text-decoration: none;}
-body{
-    display:flex;justify-content: center;align-items: center;
-    background-size: cover; background:grey url(./wall.jpg) no-repeat center center;height:100vh;}
-main{text-align: center;}
-div  kbd{
-    text-transform: uppercase;
-    position: relative;
-    display:inline-block;
-}
-div   kbd   button{
-    position: absolute;
-    right:0;
-    bottom:0;
-    display: none;
-}
-div   kbd:hover> button{
-    display:inline-block;
-}
-main  .wrapper{
-    display: inline-block;
-    background: rgba(255,255,255,0.2);
-    border-radius:10px;
-}
-.key{
-    width: 50px;
-    height:40px;
-    background: linear-gradient(45deg, rgba(41,41,41,1) 0%, rgba(17,17,17,1) 100%);
-    border:1px solid #373737;
-    color:#c5c5c5;
-    border-radius: 6px;
-    box-shadow:0 0 0 1px #a1abac,0 0 0 2px #1f2020,0 3px 0 2px #080808;
-    font-size: 16px;
-    font-family: Helvetica;
-}
-.row{
-    margin:20px;
-}
-.row .key{
-    margin:0 10px;
-    position: relative;
-}
-.row .key .text{
-    position: absolute;
-    top:2px;
-    left:4px;
-}
-.row .key img{
-    width:16px;
-    height:16px;
-    position: absolute;
-    left: 4px;
-    bottom: 2px;
-}
-
-.wrapper  div:nth-child(2){
-    margin-left: -22px;
-}
-.wrapper  div:nth-child(3){
-    margin-left: -105px;
-}
+body{background-size: cover; background:grey url(./wall.jpg) no-repeat center center;height:100vh;}
+body{-moz-user-select: none; -khtml-user-select:none; -webkit-user-select:none; -ms-user-select:none; user-select:none;}
+main{text-align: center;margin-top:100px;display:flex;justify-content: center;align-items: center;}
+div kbd{cursor:pointer;text-transform: uppercase;position: relative;display:inline-block;}
+div kbd button{position: absolute;right: 3px;bottom: 3px;display: none;height: 20px;width: 28px;background-color: black;color: white;border: none;border:none;box-shadow: 1px 1px 5px 0px rgba(255,255,255,1);}
+div kbd button:hover{color:orange;}
+div kbd button:active{position: absolute;right: 2px;bottom: 2px;display: none;height: 20px;width: 28px;background-color: black;color: cyan;border: none;outline: none;box-shadow: none;}
+div   kbd:hover> button{display:inline-block;}
+main  .wrapper{display: inline-block;background: rgba(255,255,255,0.5);border-radius:10px;}
+.key{font-size:24px;color:white;width: 70px;height:70px;background-color: black;margin:0px 6px;border-radius: 6px;box-shadow: 5px 5px 8px 0px rgba(117,117,117,0.75);}
+kbd:active{color:cyan;box-shadow: none;}
+.row{margin:20px;}
+.row .key{margin:0 10px;position: relative;}
+.row .key .text{position: absolute;top:18px;left:28px;}
+.row .key img{width:18px;height:18px;position: absolute;left: 5px;bottom: 5px;}
+.wrapper  div:nth-child(2){margin-left: -22px;}
+.wrapper  div:nth-child(3){margin-left: -105px;}
+header{padding:10px 0px;color:white;background-color: rgba(255, 255, 255, 0.2);border-radius: 25%;}
+.text .howToUse{font-size: 30px;text-align: center;padding-bottom: 10px;}
+.text .howToUseDetails{font-size:20px;text-align: center;list-style:none;}
+.text .howToUseDetails li{padding:3px 0px;}
